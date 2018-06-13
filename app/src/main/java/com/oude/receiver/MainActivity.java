@@ -24,13 +24,15 @@ public class MainActivity extends Activity
         setContentView(R.layout.main);
         tv =findViewById(R.id.mainTextView1);
         tv.setText("广播接收记录:\n");
+        
+        //创建外部主动广播接收器第一步：创建接收器
         IntentFilter intentFilter =new IntentFilter();
         intentFilter.addAction("com.oude.broadcast.action.MY_BROADCAST");
         activeBroadcastReceiver = new ActiveBroadcastReceiver();
         registerReceiver(activeBroadcastReceiver,intentFilter);
     }
     
-    
+    //实现获取当前时间
     public String getTime(){
         SimpleDateFormat formatter = new SimpleDateFormat ("yyyy年MM月dd日 HH:mm:ss ");
         Date curDate = new Date(System.currentTimeMillis());
@@ -38,6 +40,7 @@ public class MainActivity extends Activity
         return str;
     }
 
+    //注销外部广播接收器
     @Override
     protected void onDestroy()
     {
@@ -45,13 +48,10 @@ public class MainActivity extends Activity
         unregisterReceiver(activeBroadcastReceiver);
     }
     
-    
-
-    
+    //创建外部主动广播接收器第二步：实现接收器，并将时间加log内容写入到TwxtView中
     class ActiveBroadcastReceiver extends BroadcastReceiver
     {
         public String log;
-
         @Override
         public void onReceive(Context p1, Intent p2)
         {
@@ -60,7 +60,6 @@ public class MainActivity extends Activity
             tv.append(getTime() + log + "\n");
 
         }
-
 
     }
     
